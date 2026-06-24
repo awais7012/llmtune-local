@@ -1,0 +1,318 @@
+/* ═══════════════════════════════════════════════════════════════
+   llmtune — GitHub Dark design system
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base ───────────────────────────────────────────────────── */
+Screen {
+    background: #0d1117;
+    color: #e6edf3;
+}
+
+/* ── Topbar (docked top, 3 rows) ────────────────────────────── */
+#topbar {
+    dock: top;
+    height: 3;
+    background: #161b22;
+    border-bottom: solid #30363d;
+    padding: 0 2;
+    align: left middle;
+}
+
+#topbar-logo {
+    color: #58a6ff;
+    text-style: bold;
+    width: auto;
+}
+
+#topbar-step {
+    width: 1fr;
+    text-align: right;
+    color: #8b949e;
+}
+
+/* ── Bottom nav (docked bottom, 5 rows) ─────────────────────── */
+#bottom-nav {
+    dock: bottom;
+    height: 5;
+    background: #161b22;
+    border-top: solid #30363d;
+    padding: 1 4;
+    align: right middle;
+}
+
+/* ── Content area ───────────────────────────────────────────── */
+#content {
+    height: 1fr;
+    padding: 1 4;
+    overflow-y: auto;
+}
+
+/* ── Inputs ─────────────────────────────────────────────────── */
+Input {
+    background: #161b22;
+    border: tall #30363d;
+    color: #e6edf3;
+    padding: 0 1;
+}
+
+Input:focus {
+    border: tall #58a6ff;
+}
+
+Input.-invalid {
+    border: tall #f85149;
+}
+
+/* ── Buttons — override catppuccin variants ──────────────────── */
+Button {
+    text-style: bold;
+    padding: 0 3;
+}
+
+Button.-primary {
+    background: #238636;
+    border-top: tall #2ea043;
+    border-bottom: tall #196127;
+    color: #e6edf3;
+}
+
+Button.-primary:hover {
+    background: #2ea043;
+}
+
+Button.-success {
+    background: #238636;
+    border-top: tall #2ea043;
+    border-bottom: tall #196127;
+    color: #e6edf3;
+}
+
+Button.-success:hover {
+    background: #2ea043;
+}
+
+Button.-error {
+    background: #b91c1c;
+    border-top: tall #dc2626;
+    border-bottom: tall #991b1b;
+    color: #e6edf3;
+}
+
+Button.-error:hover {
+    background: #dc2626;
+}
+
+Button.-default {
+    background: #21262d;
+    border-top: tall #30363d;
+    border-bottom: tall #161b22;
+    color: #e6edf3;
+}
+
+Button.-default:hover {
+    background: #30363d;
+}
+
+/* ── List views ─────────────────────────────────────────────── */
+ListView {
+    background: #161b22;
+    border: tall #30363d;
+}
+
+ListItem {
+    background: #161b22;
+    padding: 0 1;
+}
+
+ListItem:hover {
+    background: #21262d;
+}
+
+ListItem.--highlight {
+    background: #21262d;
+    border-left: thick #58a6ff;
+}
+
+/* ── Collapsibles ───────────────────────────────────────────── */
+Collapsible {
+    border: tall #30363d;
+    background: #161b22;
+    margin-bottom: 1;
+    padding: 0 1;
+}
+
+CollapsibleTitle {
+    background: #21262d;
+    color: #8b949e;
+    padding: 0 1;
+    text-style: bold;
+}
+
+CollapsibleTitle:hover {
+    color: #e6edf3;
+}
+
+/* ── Radio sets ─────────────────────────────────────────────── */
+RadioSet {
+    border: none;
+    height: auto;
+    padding: 0;
+    background: transparent;
+}
+
+/* ── Rule ───────────────────────────────────────────────────── */
+Rule {
+    color: #30363d;
+    margin: 0;
+}
+
+/* ── Progress bar ───────────────────────────────────────────── */
+ProgressBar {
+    margin: 0 0 1 0;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+ScrollBar {
+    background: #21262d;
+}
+
+ScrollBarThumb {
+    background: #30363d;
+}
+
+/* ── Status error line (left side of bottom-nav) ────────────── */
+#status {
+    color: #f85149;
+    content-align: left middle;
+    width: 1fr;
+}
+
+/* ── Utility classes ────────────────────────────────────────── */
+
+.screen-title {
+    text-style: bold;
+    color: #e6edf3;
+    padding-bottom: 0;
+}
+
+.section-label {
+    color: #8b949e;
+    text-style: bold;
+    margin-top: 1;
+    margin-bottom: 0;
+}
+
+.hint {
+    color: #8b949e;
+    margin-bottom: 0;
+}
+
+.muted {
+    color: #8b949e;
+}
+
+.note {
+    color: #d29922;
+    margin-bottom: 1;
+}
+
+/* ── Setting rows (hyperparams screens) ─────────────────────── */
+.setting-row {
+    height: 3;
+    align: left middle;
+    padding: 0 0 1 0;
+}
+
+.setting-label {
+    width: 24;
+    color: #8b949e;
+    content-align: left middle;
+}
+
+.setting-input {
+    width: 1fr;
+}
+
+/* ── Metric cards (training screen) ─────────────────────────── */
+#metrics-row {
+    height: 5;
+    margin: 1 0;
+}
+
+.metric-card {
+    border: tall #30363d;
+    background: #161b22;
+    padding: 0 2;
+    margin-right: 1;
+    align: center middle;
+}
+
+.metric-card:last-child {
+    margin-right: 0;
+}
+
+.metric-label {
+    color: #8b949e;
+    text-style: bold;
+    text-align: center;
+}
+
+.metric-value {
+    text-style: bold;
+    text-align: center;
+    color: #e6edf3;
+}
+
+/* ── Training log ───────────────────────────────────────────── */
+#log {
+    height: 1fr;
+    border: tall #30363d;
+    background: #0d1117;
+    padding: 0 1;
+}
+
+#log-header {
+    color: #8b949e;
+    text-style: bold;
+    height: 1;
+    padding: 0 1;
+    margin-top: 1;
+}
+
+#banner {
+    height: 3;
+    margin-top: 0;
+    text-align: center;
+    content-align: center middle;
+    text-style: bold;
+}
+
+/* ── Token collapsible — yellow accent ──────────────────────── */
+#token-collapsible {
+    border: tall #d29922;
+    background: #161b22;
+}
+
+#token-collapsible CollapsibleTitle {
+    color: #d29922;
+}
+
+/* ── Legacy compatibility stubs ─────────────────────────────── */
+.card {
+    border: tall #30363d;
+    background: #161b22;
+    padding: 1 2;
+    margin-bottom: 1;
+}
+
+.footer-err {
+    color: #f85149;
+    content-align: left middle;
+    width: 1fr;
+}
+
+.key-hints {
+    color: #8b949e;
+    content-align: left middle;
+    width: 1fr;
+}

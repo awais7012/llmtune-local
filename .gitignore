@@ -1,0 +1,51 @@
+# ── Secrets / env ─────────────────────────────────────────────
+.env
+*.env
+**/.env
+!.env.example
+**/.env.example
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Virtual environments ──────────────────────────────────────
+venv/
+.venv/
+train_env/
+tui_env/
+backend/venv/
+
+# ── Node / frontend build ─────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# ── Training / model outputs ──────────────────────────────────
+test-output/
+quickstart-adapter/
+*.gguf
+llmtune-output/
+llmtune-cnn-output/
+
+# ── Editor / OS / tooling ─────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+.claude/
+
+# ── Local-only / not for the public repo ──────────────────────
+run.md
+project_sex_.md
+docs.zip
+docs/
+backend/
+Screenshot*.png
+*.png

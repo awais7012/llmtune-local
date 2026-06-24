@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llmtune-local"
+version = "0.1.3"
+description = "Fine-tune LLMs (LoRA/QLoRA) and image classifiers locally — browser UI + optional TUI"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = [
+    "llm", "fine-tuning", "lora", "qlora", "peft", "transformers",
+    "local", "apple-silicon", "mps", "image-classification", "tui",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.0",
+    "python-jose[cryptography]>=3.3.0",
+    "pydantic-settings>=2.3.0",
+    "websockets>=12.0",
+    "pywebview>=5.4.0",
+    "textual>=0.47.0",
+    "rich>=13.0.0",
+    "transformers>=4.40.0",
+    "peft>=0.10.0",
+    "datasets>=2.19.0",
+    "torch>=2.2.0",
+    # 4-bit/8-bit QLoRA only — CUDA-only library with no macOS wheels, so gate it
+    # to Linux or `pip install` breaks on Mac/Windows.
+    "bitsandbytes>=0.43.0; platform_system == 'Linux'",
+    "accelerate>=0.29.0",
+    "trl>=0.8.0",
+    "httpx>=0.27.0",
+    "keyring>=25.0.0",
+    "questionary>=2.0.0",
+    "typer>=0.12.0",
+    "psutil>=5.9.0",
+    "pillow>=10.0.0",
+    "torchvision>=0.16.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/awais7012/llmtune-local"
+Repository = "https://github.com/awais7012/llmtune-local"
+"Bug Tracker" = "https://github.com/awais7012/llmtune-local/issues"
+
+[project.scripts]
+llmtune = "llmtune.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llmtune"]
+# The built frontend lives at src/llmtune/server/static and ships automatically
+# as part of the package — no force-include needed. To refresh it, rebuild the
+# frontend (npm run build) and copy frontend/dist/* into src/llmtune/server/static/.
+
+[tool.hatch.build.targets.sdist]
+include = ["src/llmtune"]
