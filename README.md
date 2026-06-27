@@ -16,6 +16,17 @@ llmtune run
 
 ---
 
+## Screenshots
+
+| Model picker | Training |
+|---|---|
+| ![Model selection](screenshots/model-picker.png) | ![Live training](screenshots/training.png) |
+
+> _Screenshots live in [`screenshots/`](screenshots/). Drop in PNGs named
+> `model-picker.png` and `training.png` to populate this section._
+
+---
+
 ## What is this?
 
 **llmtune** is a command-line tool that lets you take any open-source AI language model and train it further on your own data. This process is called *fine-tuning*.
@@ -66,6 +77,22 @@ Those are excellent, powerful **research frameworks** — config-/CLI-driven, Li
 
 If you need DeepSpeed, multi-GPU sharding, or DPO/ORPO research pipelines, use one of the frameworks above. If you want the **fastest path from "a dataset" to "a working adapter" on the hardware you already own**, that's this.
 
+| | **llmtune** | LLaMA-Factory | Axolotl | Torchtune |
+|---|:---:|:---:|:---:|:---:|
+| Zero-config (no YAML) | ✅ | ❌ | ❌ | ❌ |
+| Terminal UI (TUI) | ✅ | ❌ | ❌ | ❌ |
+| Browser GUI | ✅ | ✅ | ❌ | ❌ |
+| First-class Apple Silicon (MPS) | ✅ | ⚠️ | ⚠️ | ⚠️ |
+| Image-classifier fine-tuning | ✅ | ❌ | ❌ | ❌ |
+| One-command GGUF export | ✅ | ✅ | ⚠️ | ❌ |
+| LoRA / QLoRA | ✅ | ✅ | ✅ | ✅ |
+| Multi-GPU / DeepSpeed | ❌ | ✅ | ✅ | ✅ |
+| Preference tuning (DPO/ORPO/…) | ❌ | ✅ | ✅ | ✅ |
+
+> The frameworks above are more powerful for large-scale, multi-GPU, and research
+> workflows — llmtune trades that for simplicity and local/laptop ergonomics.
+> Comparison reflects each project's typical/default usage and may change; corrections welcome via an issue.
+
 ---
 
 ## How it works — plain English
@@ -100,10 +127,7 @@ On Apple Silicon (M1/M2/M3 Macs), llmtune automatically uses regular LoRA in flo
 
 llmtune has a full terminal UI (TUI) — it's not just text scrolling in a shell. It has proper screens, inputs, buttons, and navigation, all rendered inside your terminal.
 
-**Screen 1 — Login**
-When you first run llmtune, it asks you to log in via your browser. This is a one-time step. The login is used only to let the developer know how many people are using the tool. Nothing about your models, datasets, or training is ever sent anywhere.
-
-**Screen 2 — Model selection**
+**Screen 1 — Model selection**
 Two options:
 - Paste a local folder path if you already have a HuggingFace model downloaded
 - Pick from a list of popular models (they will be downloaded from HuggingFace the first time, then cached on disk forever)
@@ -113,13 +137,13 @@ Two options:
 > inference-only format. If you have an Ollama model installed, the model selection screen
 > will show its HuggingFace equivalent so you can use that instead.
 
-**Screen 3 — Dataset**
+**Screen 2 — Dataset**
 Enter the path to your dataset file and choose the format. An "Advanced" section lets you configure the text field name and sequence length if needed.
 
-**Screen 4 — Training settings**
+**Screen 3 — Training settings**
 Three core settings are shown immediately: epochs, batch size, and output folder. Below them, three collapsible sections let advanced users configure LoRA parameters, quantization mode, and the learning rate scheduler.
 
-**Screen 5 — Training**
+**Screen 4 — Training**
 Live view of training. Shows current step, loss value, elapsed time, a progress bar, and a scrollable log of everything the trainer outputs. You can stop training early at any time.
 
 ---
@@ -141,17 +165,11 @@ To use the fine-tuned model later, you load the base model and apply the adapter
 
 ---
 
-## Authentication
+## Privacy
 
-llmtune signs you in with **Auth0** using the OAuth 2.0 **Device Authorization Flow**. Here's exactly what happens and why:
-
-- On launch, the local llmtune server asks Auth0 for a device + user code and opens Auth0's hosted sign-in page in your browser.
-- You sign in there (Auth0 hosts the page — llmtune never sees your password).
-- The local server polls Auth0 until you've approved, then receives and verifies an Auth0 **ID token** (RS256, checked against Auth0's JWKS).
-- The token is stored in your system's secure keyring (macOS Keychain, etc.). A one-line record of which account signed in is kept locally at `~/.llmtune/logins.jsonl`.
-- **None of your training data, model choices, or results are ever sent anywhere.** Sign-in only proves identity.
-
-The sole purpose of auth is for the developer to know who's using the tool. The tool is free, runs entirely on your machine, and has no usage limits tied to your account.
+llmtune requires **no account and no login**. Everything runs locally on your
+machine — your data, models, and training never leave the device, and nothing is
+sent to any server. The tool is free with no usage limits.
 
 ---
 
@@ -165,6 +183,18 @@ The sole purpose of auth is for the developer to know who's using the tool. The 
 | 13B+ parameter model | 24 GB+ | Desktop GPU recommended |
 
 Apple Silicon Macs use "unified memory" — GPU and CPU share the same pool, so a 16 GB M1 Pro can handle a 7B model that would need a dedicated 16 GB NVIDIA card on a Windows PC.
+
+---
+
+## Performance
+
+Speed depends heavily on model size, sequence length, and your hardware. One measured reference point:
+
+| Model | Method | Hardware | Throughput | 50 steps |
+|---|---|---|---|---|
+| TinyLlama-1.1B | float16 LoRA | Apple M1 (MPS) | ~3.8 s/it | ~3.6 min |
+
+Numbers on other setups will vary — run the example in [`examples/`](examples/) to benchmark your own machine. (Community-contributed benchmarks welcome.)
 
 ---
 
@@ -203,10 +233,8 @@ A minimum of ~50–100 examples is recommended. More is better. Quality matters 
 | Terminal UI | [Textual](https://textual.textualize.io) | Modern Python TUI framework, looks great |
 | Fine-tuning | [HuggingFace PEFT](https://github.com/huggingface/peft) + [TRL](https://github.com/huggingface/trl) | Industry standard LoRA implementation |
 | Model loading | [Transformers](https://huggingface.co/docs/transformers) | Supports every major open-source model |
-| Auth | [Auth0](https://auth0.com) (Device Authorization Flow) | Hosted sign-in, identity, ID tokens |
-| Server | [FastAPI](https://fastapi.tiangolo.com) | Serves the UI + brokers the device flow |
+| Server | [FastAPI](https://fastapi.tiangolo.com) | Serves the UI + REST API |
 | Frontend | [React](https://react.dev) + [Vite](https://vitejs.dev) + TypeScript | Browser/native-window UI |
-| Token storage | OS keyring (macOS Keychain, etc.) | Secure, no plaintext secrets on disk |
 | Packaging | [PyPI](https://pypi.org) via hatchling | Standard Python package distribution |
 
 ---
@@ -218,7 +246,7 @@ pip install llmtune-local
 llmtune run
 ```
 
-First run opens an Auth0 sign-in page in your browser once. After that, just run `llmtune run` and you're at the model selection screen.
+No account or login required — `llmtune run` takes you straight to the model selection screen.
 
 ---
 
@@ -227,7 +255,6 @@ First run opens an Auth0 sign-in page in your browser once. After that, just run
 ```bash
 llmtune run                     # launch the app (browser/native window)
 llmtune run --tui               # launch the terminal UI instead
-llmtune logout                  # clear the stored session
 llmtune version                 # print the installed version
 llmtune export-gguf <path>      # convert a fine-tuned adapter to GGUF (llama.cpp / Ollama)
 ```
@@ -290,6 +317,18 @@ print(tokenizer.decode(output[0], skip_special_tokens=True))
 
 ---
 
+## Roadmap
+
+- [ ] Community-contributed benchmarks across more models/hardware
+- [ ] DoRA and IA3 adapter methods (PEFT-backed)
+- [ ] Resume-from-checkpoint in the UI
+- [ ] More built-in dataset templates
+- [ ] Optional multi-GPU path for non-Mac setups
+
+Contributions and suggestions are welcome — open an issue.
+
+---
+
 ## License
 
-MIT — free to use, modify, and distribute.
+MIT — free to use, modify, and distribute. See [LICENSE](LICENSE).

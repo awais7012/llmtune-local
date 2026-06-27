@@ -14,8 +14,8 @@ router = APIRouter(prefix="/api", tags=["config"])
 
 
 class AppConfig(BaseModel):
-    # Login is always required now — kept False for frontend compatibility.
-    skip_auth: bool = False
+    # No login required — kept for frontend compatibility.
+    skip_auth: bool = True
     platform: str
     device: str
     device_label: str
@@ -37,7 +37,7 @@ def get_config():
     except Exception:
         pass
     return AppConfig(
-        skip_auth=False,
+        skip_auth=True,
         platform=platform.system(),
         device=dev,
         device_label=device_label(dev),

@@ -47,5 +47,5 @@ project_sex_.md
 docs.zip
 docs/
 backend/
-Screenshot*.png
-*.png
+# The stray desktop screenshot at the repo root (curated shots live in screenshots/)
+/Screenshot*.png

@@ -37,15 +37,6 @@ def run(
 
 
 @app.command()
-def logout() -> None:
-    """Clear stored login credentials."""
-    from llmtune.auth import logout as _logout
-
-    _logout()
-    typer.echo("Logged out.")
-
-
-@app.command()
 def version() -> None:
     """Print the installed llmtune version."""
     from llmtune import __version__

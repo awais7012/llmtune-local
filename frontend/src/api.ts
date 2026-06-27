@@ -213,56 +213,6 @@ export async function pollJob(jobId: string): Promise<JobStatus> {
   return res.json();
 }
 
-export async function pollDeviceAuth(
-  deviceCode: string,
-  intervalSec: number,
-  signal: AbortSignal
-): Promise<string> {
-  const deadline = Date.now() + 5 * 60 * 1000;
-  while (Date.now() < deadline) {
-    if (signal.aborted) throw new Error("Login cancelled");
-    await new Promise((r) => setTimeout(r, intervalSec * 1000));
-    if (signal.aborted) throw new Error("Login cancelled");
-
-    const res = await fetch(`${API_BASE}/auth/device/poll`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ device_code: deviceCode }),
-    });
-
-    if (res.status === 200) {
-      const data = await res.json();
-      return data.token as string;
-    }
-    if (res.status !== 202) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data?.detail ?? `Login failed (${res.status})`);
-    }
-  }
-  throw new Error("Login timed out. Try again.");
-}
-
-export async function startDeviceAuth(): Promise<{
-  device_code: string;
-  login_url: string;
-  interval: number;
-}> {
-  const res = await fetch(`${API_BASE}/auth/device/start`, { method: "POST" });
-  if (!res.ok) throw new Error("Could not start login");
-  return res.json();
-}
-
-export async function openAuthBrowser(url: string): Promise<{ opened: boolean }> {
-  const res = await fetch(`${API_BASE}/auth/device/open-browser`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url }),
-  });
-  if (!res.ok) throw new Error("Could not open browser");
-  const data = await res.json().catch(() => ({}));
-  return { opened: data?.opened !== false };
-}
-
 export function jobWebSocket(jobId: string): WebSocket {
   const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
   const host = API_BASE ? new URL(API_BASE).host : window.location.host;

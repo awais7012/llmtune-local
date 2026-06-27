@@ -3,6 +3,24 @@
 All notable changes to **llmtune-local** are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.5]
+
+### Changed
+- **Removed login entirely — the app now runs with no authentication.** Dropped
+  the Auth0 device flow from the server, CLI/TUI, and React frontend; the app
+  opens straight into the studio.
+
+### Removed
+- `llmtune logout` command and the TUI login screen.
+- Auth-only dependencies (`python-jose`, `keyring`) and the Auth0 unit test.
+
+## [0.1.4]
+
+### Added
+- README: honest feature-comparison table vs LLaMA-Factory / Axolotl / Torchtune,
+  a Screenshots section, a Performance reference point, and a Roadmap.
+- `screenshots/` directory for curated UI images.
+
 ## [0.1.3]
 
 ### Added

@@ -24,11 +24,7 @@ class LLMTuneApp(App):
         self.train_mode: str = "llm"  # "llm" | "cnn"
 
     def on_mount(self) -> None:
-        from llmtune.auth import is_authenticated
-        from llmtune.tui.screens.login import LoginScreen
         from llmtune.tui.screens.model_select import ModelSelectScreen
 
-        if is_authenticated():
-            self.push_screen(ModelSelectScreen())
-        else:
-            self.push_screen(LoginScreen())
+        # No login — go straight to the model selection screen.
+        self.push_screen(ModelSelectScreen())

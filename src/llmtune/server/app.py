@@ -10,7 +10,6 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from llmtune.server.routers import (
-    auth_router,
     config_router,
     dataset_router,
     jobs_router,
@@ -33,7 +32,6 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(auth_router)
     app.include_router(config_router)
     app.include_router(dataset_router)
     app.include_router(models_router)
