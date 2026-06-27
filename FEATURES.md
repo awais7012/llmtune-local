@@ -4,27 +4,10 @@
 
 ---
 
-### 1. Authentication  *(Auth0 device flow)*
-- One-time browser sign-in via **Auth0's hosted login page** — no auth SDK ships
-  in the app; the local server brokers Auth0's Device Authorization Flow.
-- Session token (Auth0 ID token) stored in the OS keyring (macOS Keychain),
-  falling back to `~/.llmtune/auth.json`.
-- Works for both the browser UI (`llmtune run`) and the TUI (`llmtune run --tui`).
-
-**One-time Auth0 setup (you, the publisher):**
-1. Create a free tenant at [auth0.com](https://auth0.com) (or reuse one). Note
-   your **domain**, e.g. `your-tenant.us.auth0.com`.
-2. **Applications → Create Application → Native.**
-3. In that app: **Settings → Advanced → Grant Types → enable “Device Code.”**
-4. Copy the **Client ID** (it's a public value, safe to ship).
-5. Configure llmtune with the domain + client ID, either by:
-   - editing the baked-in defaults in
-     `src/llmtune/server/auth/auth0.py` (`DEFAULT_DOMAIN`, `DEFAULT_CLIENT_ID`), or
-   - setting env vars `AUTH0_DOMAIN` and `AUTH0_CLIENT_ID` (in development these
-     are also read from `frontend/.env`).
-
-Optional env: `AUTH0_SCOPE` (default `openid profile email`), `AUTH0_AUDIENCE`
-(only if you want access tokens scoped to a custom Auth0 API).
+### 1. No login required
+- The app requires **no account and no authentication** — it runs entirely on the
+  user's machine and opens straight into the studio.
+- Works the same for the browser UI (`llmtune run`) and the TUI (`llmtune run --tui`).
 
 ---
 
